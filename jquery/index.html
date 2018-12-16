@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    
+    }
+    .container {
+      border: 3px solid red;
+      width: 600px;
+      overflow: hidden;
+    }
+  .container>.imgs {
+    display: flex;
+    transition: all 1s;
+    /* align-items: flex-start;   */
+  }
+  .active {
+    color: red;
+  }
+  </style>
+  <script></script>
+</head>
+<body>
+  <div class="container">
+    <div class="imgs">
+      <img src="./1.jpg" width="600" alt="">
+      <img src="./2.jpg" width="600" alt="">
+      <img src="./3.jpg" width="600" alt="">
+      <img src="./4.jpg" width="600" alt="">
+    </div>
+  </div>
+  <div id="buttons">
+      <button class="active">第一张</button>
+      <button>第二张</button>
+      <button>第三张</button>
+      <button>第四张</button>
+  </div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    var allButtons = $('#buttons>button')
+    var buttonsLen = allButtons.length
+    for(let i = 0; i < buttonsLen; i++) {
+      $(allButtons[i]).on('click', function(e) {
+        console.log(i)
+        let position = i * -600
+        n = i
+        $('.imgs').css({
+          transform: `translateX(${position}px)`
+        })
+        $(allButtons[i]).addClass('active').siblings('.active').removeClass('active')
+      })
+    }
+
+    var n = 0
+    var timerId
+    function setTimer() {
+      return  setInterval(() => {
+        n += 1
+        var size = n % buttonsLen
+        allButtons.eq(size).trigger('click')   //点击对应的button按钮
+      }, 3000)
+    } 
+    timerId = setTimer()
+
+    $('.container').on('mouseenter', (e) => {
+      window.clearInterval(timerId)
+    })
+
+    $('.container').on('mouseleave', (e) => {
+      timerId = setTimer()
+    })
+  </script>
+</body>
+</html>
